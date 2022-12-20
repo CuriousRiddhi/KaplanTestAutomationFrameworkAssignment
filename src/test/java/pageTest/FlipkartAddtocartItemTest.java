@@ -14,7 +14,7 @@ import com.flipkart.qa.utils.ExcelUtils;
 
 /** 
  * Verify Flipkart Test Scenario - to add product & remove product from the cart
- * @author riddh
+ * @author riddhi
  *
  */
 public class FlipkartAddtocartItemTest extends BaseTest {
