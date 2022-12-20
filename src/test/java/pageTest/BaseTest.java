@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -94,8 +93,8 @@ public class BaseTest {
 		if (result.getStatus() == ITestResult.FAILURE) {
 			ReportUtils.log.fail(result.getThrowable(),
 					MediaEntityBuilder.createScreenCaptureFromPath(BaseUtils.getScreenShotPath(driver,
-							result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName()))
-							.build());
+							this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName())).build());		
+			
 		}		
 		ReportUtils.log.info("Adding Result to Extent Report");
 	}

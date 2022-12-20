@@ -31,7 +31,6 @@ import com.flipkart.qa.utils.WaitUtils;
  */
 public class ProductPage {
 	public WebDriver driver;
-	ITestResult result;
 
 	public ProductPage(WebDriver driver) throws IOException {
 		// initialize Page factory for this class
@@ -85,7 +84,7 @@ public class ProductPage {
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -106,7 +105,7 @@ public class ProductPage {
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -119,13 +118,13 @@ public class ProductPage {
 	public String getProductName() {
 		String prdName = "";
 		try {
-			WaitUtils.waitForElementToBeVisibile(By.xpath(OR_ProductPage.productName), driver, 20);
+			WaitUtils.waitForElementToBeVisibile(By.xpath(OR_ProductPage.productName), driver, 30);
 			prdName = productName.getText();
 			ReportUtils.log.info("Get Product Name From Product : " + prdName);
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 		return prdName;
 	}
@@ -145,33 +144,9 @@ public class ProductPage {
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 		return prdPrice;
-	}
-
-	/**
-	 * Method to add product to cart - select size & click on Add to cart button
-	 * 
-	 * @param prdSize
-	 */
-	public void addToCart(String prdSize) {
-		try {
-			// Click on Product Size
-			selectProductSize(prdSize);
-			String expectedProductName = getProductName();
-			String expectedProductPrice = getProductPrice();
-			// Click on Add To Cart Button
-			clickOnAddtoCartButton();
-			ReportUtils.log.info("MATCHED: Actual Product Name & Expected ProductName : "
-					+ BaseUtils.isMatching(getProductNameFromCart(), expectedProductName));
-			ReportUtils.log.info("MATCHED: Actual Product Price & Expected Product Price : "
-					+ BaseUtils.isMatching(getProductPriceFromCart(), expectedProductPrice));
-		} catch (Exception e) {
-			ReportUtils.log.fail(e);
-			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
-		}
 	}
 
 	/**
@@ -184,12 +159,13 @@ public class ProductPage {
 		try {
 			WebElement webElement = ActionUtils.getWebElement(OR_ProductPage.productSize, prdSize);
 			WaitUtils.ScrolltoElementusingActionclass(webElement, driver);
+			WaitUtils.wait2Second();
 			webElement.click();
 			ReportUtils.log.info("Product Size Selected  : " + prdSize);
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -202,11 +178,12 @@ public class ProductPage {
 		try {
 			WaitUtils.waitForElementToBeClickable(By.xpath(OR_ProductPage.addToCartButton), driver, 30);
 			addToCartButton.click();
+			WaitUtils.wait2Second();
 			ReportUtils.log.info("Add to Cart Button is clicked : ");
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -223,7 +200,7 @@ public class ProductPage {
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 		return getProductNameOnCartItem;
 	}
@@ -241,29 +218,11 @@ public class ProductPage {
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 		return getProductPriceOnCartItem;
 	}
-
-	/**
-	 * Method to remove item from cart - - click on remove item Button & verify
-	 * Remove Item
-	 * 
-	 * @param productBrand
-	 * @param product
-	 */
-	public void removeFromCart(String productBrand, String product) {
-		try {
-			clickOnRemoveItemButton();
-			clickOnRemoveItemPopup(productBrand, product);
-		} catch (Exception e) {
-			ReportUtils.log.fail(e);
-			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
-		}
-	}
-
+	
 	/**
 	 * Method to click on Remove Item Button on Cart Page
 	 * 
@@ -275,10 +234,10 @@ public class ProductPage {
 			WaitUtils.waitForElementToBeClickable(By.xpath(OR_ProductPage.removeBtn), driver, 10);
 			removeBtn.click();
 			ReportUtils.log.info("Remove Button Clicked ");
-			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
+			BaseUtils.getScreenShotPath(driver,
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -294,21 +253,22 @@ public class ProductPage {
 			String removedItemSuccessToaster = "'Successfully removed " + brand + " " + productName;
 			ReportUtils.log.info("Expected Success Toaster Message : " + removedItemSuccessToaster);
 			String xpathToasterMessage = "//div[contains(text()," + removedItemSuccessToaster + "')]";
-			WaitUtils.waitForElementToBeClickable(By.xpath(OR_ProductPage.removeBtn), driver, 10);
-			removeBtn.click();
+			WaitUtils.waitForElementToBeClickable(By.xpath(OR_ProductPage.removeButtomonPopup), driver, 10);
+			removeButtomonPopup.click();
 			ReportUtils.log.info("Remove Button Clicked From Remove Item Popup");
 			WaitUtils.waitForElementToBeVisibile(By.xpath(xpathToasterMessage), driver, 10);
 			ReportUtils.log.info("Success Toaster Message For Removed Items : "
 					+ driver.findElement(By.xpath(xpathToasterMessage)).getText());
+			WaitUtils.wait2Second();
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
 	/**
-	 * Method to navigate to another tab
+	 * Method to navigate to another tab, when multiple tabs are open
 	 * 
 	 * @param driver
 	 */
@@ -324,10 +284,11 @@ public class ProductPage {
 					driver.switchTo().window(tab);
 				}
 			}
+			// WaitUtils.waitForElementToBeClickable(null, driver, 0);
 		} catch (Exception e) {
 			ReportUtils.log.fail(e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 }

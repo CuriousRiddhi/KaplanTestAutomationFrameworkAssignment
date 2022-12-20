@@ -8,12 +8,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.ITestResult;
 
 import com.flipkart.qa.properties.OR_HomePage;
 import com.flipkart.qa.utils.ActionUtils;
 import com.flipkart.qa.utils.BaseUtils;
 import com.flipkart.qa.utils.ReportUtils;
+import com.flipkart.qa.utils.WaitUtils;
 
 /**
  * HomePage Class - INitialize page factory for Home Page Elements
@@ -23,7 +23,6 @@ import com.flipkart.qa.utils.ReportUtils;
  */
 public class HomePage {
 	public WebDriver driver;
-	ITestResult result;
 
 	/**
 	 * This constructor Initialize Page Factory Elements
@@ -57,7 +56,7 @@ public class HomePage {
 		} catch (Exception e) {
 			ReportUtils.log.info("Failed to verify Home Page Title");
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 		return titleHomePage;
 	}
@@ -86,7 +85,7 @@ public class HomePage {
 		} catch (Exception e) {
 			ReportUtils.log.fail("Failed to Close Login popup : " + e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -104,7 +103,7 @@ public class HomePage {
 		} catch (Exception e) {
 			ReportUtils.log.fail("Failed to click on Main Menu : " + e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -119,11 +118,12 @@ public class HomePage {
 			WebElement webElement = ActionUtils.getWebElement(OR_HomePage.subMenuItem, subMenuItem);
 			assertTrue(webElement.isDisplayed(), "SUCCESS: Flip Kart - Sub Menu Item displayed!");
 			webElement.click();
+			WaitUtils.wait2Second();
 			ReportUtils.log.info("Sub Menu Item Clicked :: " + subMenuItem);
 		} catch (Exception e) {
 			ReportUtils.log.fail("Failed to mouse hover sub section : " + e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
@@ -141,7 +141,7 @@ public class HomePage {
 		} catch (Exception e) {
 			ReportUtils.log.fail("Fail to click on Sub Section Item : " + e);
 			BaseUtils.getScreenShotPath(driver,
-					result.getInstance().getClass().getSimpleName() + "." + result.getMethod().getMethodName());
+					this.getClass().getName() + "." + new Exception().getStackTrace()[0].getMethodName());
 		}
 	}
 
